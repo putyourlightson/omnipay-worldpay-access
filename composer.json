@@ -1,6 +1,6 @@
 {
     "name": "putyourlightson/omnipay-worldpay-access",
-    "description": "WorldPay Access driver for the Omnipay payment processing library.",
+    "description": "Worldpay Access driver for the Omnipay payment processing library.",
     "version": "1.0.0",
     "type": "library",
     "license": "MIT",
@@ -21,7 +21,7 @@
         }
     },
     "extra": {
-        "name": "Omnipay WorldPay Access",
+        "name": "Omnipay Worldpay Access",
         "developer": "PutYourLightsOn",
         "developerUrl": "https://putyourlightson.com/",
         "documentationUrl": "https://github.com/putyourlightson/omnipay-worldpay-access",

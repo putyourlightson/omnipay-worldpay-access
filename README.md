@@ -1,4 +1,4 @@
-# Omnipay WorldPay Access
+# Omnipay Worldpay Access
 
 Worldpay Access driver for the Omnipay payment processing library.
 
