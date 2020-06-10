@@ -1,0 +1,30 @@
+{
+    "name": "putyourlightson/omnipay-worldpay-access",
+    "description": "WorldPay Access driver for the Omnipay payment processing library.",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "worldpay"
+    ],
+    "require": {
+        "omnipay/common": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+          "Putyourlightson\\OAuth2\\Client\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Omnipay WorldPay Access",
+        "developer": "PutYourLightsOn",
+        "developerUrl": "https://putyourlightson.com/",
+        "documentationUrl": "https://github.com/putyourlightson/omnipay-worldpay-access",
+        "changelogUrl": "https://raw.githubusercontent.com/putyourlightson/omnipay-worldpay-access/v1/CHANGELOG.md"
+    }
+}
