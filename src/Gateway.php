@@ -38,73 +38,73 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'merchantId' => '',
-            'serviceKey' => '',
-            'clientKey' => '',
+            'username' => '',
+            'password' => '',
+            'checkoutId' => '',
         );
     }
 
     /**
-     * Get the stored service key
+     * Get the stored username
      *
      * @return string
      */
-    public function getServiceKey()
+    public function getUsername()
     {
-        return $this->getParameter('serviceKey');
+        return $this->getParameter('username');
     }
 
     /**
-     * Set the stored service key
+     * Set the stored username
      *
-     * @param string $value Service key to store
-     * @return Gateway
+     * @param string $value
+     * @return $this
      */
-    public function setServiceKey($value)
+    public function setUsername($value)
     {
-        return $this->setParameter('serviceKey', $value);
+        return $this->setParameter('username', $value);
     }
 
     /**
-     * Get the stored merchant ID
+     * Get the stored password
      *
      * @return string
      */
-    public function getMerchantId()
+    public function getPassword()
     {
         return $this->getParameter('merchantId');
     }
 
     /**
-     * Set the stored merchant ID
+     * Set the stored password
      *
-     * @param string $value Merchant ID to store
-     * @return Gateway
+     * @param string $value
+     * @return $this
      */
-    public function setMerchantId($value)
+    public function setPassword($value)
     {
-        return $this->setParameter('merchantId', $value);
+        return $this->setParameter('password', $value);
     }
 
     /**
-     * Get the stored client key
+     * Get the stored checkout ID
      *
      * @return string
      */
-    public function getClientKey()
+    public function getCheckoutId()
     {
-        return $this->getParameter('clientKey');
+        return $this->getParameter('checkoutId');
     }
 
     /**
-     * Set the stored client key
+     * Set the stored checkout ID
      *
-     * @param string $value Client key to store
-     * @return Gateway
+     * @param string $value
+     * @return $this
      */
-    public function setClientKey($value)
+    public function setCheckoutId($value)
     {
-        return $this->setParameter('clientKey', $value);
+        return $this->setParameter('checkoutId', $value);
     }
 
     /**

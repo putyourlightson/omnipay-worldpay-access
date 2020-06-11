@@ -6,7 +6,6 @@
 namespace Omnipay\WorldpayAccess\Message;
 
 use Omnipay\Common\Message\AbstractRequest as CommonAbstractRequest;
-use Omnipay\WorldPay\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -37,66 +36,66 @@ abstract class AbstractRequest extends CommonAbstractRequest
     }
 
     /**
-     * Get the stored merchant ID
+     * Get the stored username
      *
      * @return string
      */
-    public function getMerchantId()
+    public function getUsername()
+    {
+        return $this->getParameter('username');
+    }
+
+    /**
+     * Set the stored username
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setUsername($value)
+    {
+        return $this->setParameter('username', $value);
+    }
+
+    /**
+     * Get the stored password
+     *
+     * @return string
+     */
+    public function getPassword()
     {
         return $this->getParameter('merchantId');
     }
 
     /**
-     * Set the stored merchant ID
+     * Set the stored password
      *
-     * @param string $value Merchant ID to store
-     * @return AbstractRequest
+     * @param string $value
+     * @return $this
      */
-    public function setMerchantId($value)
+    public function setPassword($value)
     {
-        return $this->setParameter('merchantId', $value);
+        return $this->setParameter('password', $value);
     }
 
     /**
-     * Get the stored service key
+     * Get the stored checkout ID
      *
      * @return string
      */
-    public function getServiceKey()
+    public function getCheckoutId()
     {
-        return $this->getParameter('serviceKey');
+        return $this->getParameter('checkoutId');
     }
 
     /**
-     * Set the stored service key
+     * Set the stored checkout ID
      *
-     * @param string $value Service key to store
-     * @return AbstractRequest
+     * @param string $value
+     * @return $this
      */
-    public function setServiceKey($value)
+    public function setCheckoutId($value)
     {
-        return $this->setParameter('serviceKey', $value);
-    }
-
-    /**
-     * Get the stored client key
-     *
-     * @return string
-     */
-    public function getClientKey()
-    {
-        return $this->getParameter('clientKey');
-    }
-
-    /**
-     * Set the stored client key
-     *
-     * @param string $value Client key to store
-     * @return AbstractRequest
-     */
-    public function setClientKey($value)
-    {
-        return $this->setParameter('clientKey', $value);
+        return $this->setParameter('checkoutId', $value);
     }
 
     /**
@@ -107,13 +106,15 @@ abstract class AbstractRequest extends CommonAbstractRequest
      */
     public function sendRequest($data)
     {
+        $authorization = 'Basic ' . base64_encode($this->getUsername() . ':' . $this->getPassword());
+
         return $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getEndpoint(),
             [
+                'Authorization' => $authorization,
+                'Content-Type' => 'application/vnd.worldpay.payments-v6+json',
                 'Accept' => 'application/json',
-                'Authorization' => $this->getServiceKey(),
-                'Content-Type' => 'application/json',
             ],
             json_encode($data)
         );
