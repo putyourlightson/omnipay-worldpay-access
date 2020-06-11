@@ -3,7 +3,7 @@
  * @copyright Copyright (c) PutYourLightsOn
  */
 
-namespace Putyourlightson\OmnipayWorldpayAccess;
+namespace Omnipay\WorldpayAccess;
 
 use Omnipay\Common\AbstractGateway;
 
