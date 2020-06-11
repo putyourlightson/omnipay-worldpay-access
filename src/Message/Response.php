@@ -43,7 +43,7 @@ class Response extends AbstractResponse
     {
         $code = $this->response->getStatusCode();
 
-        return $code == 201;
+        return ($code == 201 || $code == 202);
     }
 
     /**

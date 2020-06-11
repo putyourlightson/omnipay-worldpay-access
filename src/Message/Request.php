@@ -5,25 +5,33 @@
 
 namespace Omnipay\WorldpayAccess\Message;
 
-use Omnipay\Common\Message\AbstractRequest as CommonAbstractRequest;
+use Omnipay\Common\Message\AbstractRequest;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Worldpay Access Abstract Request
  */
-abstract class AbstractRequest extends CommonAbstractRequest
+abstract class Request extends AbstractRequest
 {
     /**
-     * @var string  API endpoint base to connect to
+     * @var string Live API endpoint base to connect to
      */
-    protected $endpoint = 'https://access.worldpay.com/';
+    protected $liveEndpoint = 'https://access.worldpay.com/';
 
     /**
-     * Method required to override for getting the specific request endpoint
+     * @var string Test API endpoint base to connect to
+     */
+    protected $testEndpoint = 'https://try.access.worldpay.com/';
+
+    /**
+     * Get the specific request endpoint
      *
      * @return string
      */
-    abstract public function getEndpoint();
+    public function getEndpoint()
+    {
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+    }
 
     /**
      * The HTTP method used to send data to the API endpoint
@@ -99,6 +107,41 @@ abstract class AbstractRequest extends CommonAbstractRequest
     }
 
     /**
+     * Get the stored authorize response
+     *
+     * @param array $parameters
+     * @return AuthorizeResponse
+     */
+    public function getAuthorizeResponse()
+    {
+        return $this->getParameter('authorizeResponse');
+    }
+
+    /**
+     * Set the stored checkout ID
+     *
+     * @param AuthorizeResponse $value
+     * @return $this
+     */
+    public function setAuthorizeResponse($value)
+    {
+        return $this->setParameter('authorizeResponse', $value);
+    }
+
+    /**
+     * Get the stored authorize response
+     *
+     * @param array $parameters
+     * @return array
+     */
+    public function getAuthorizeResponseLinks()
+    {
+        $data = $this->getAuthorizeResponse()->getData();
+
+        return $data['_links'] ?? [];
+    }
+
+    /**
      * Make the actual request to Worldpay
      *
      * @param mixed $data  The data to encode and send to the API endpoint
@@ -106,13 +149,13 @@ abstract class AbstractRequest extends CommonAbstractRequest
      */
     public function sendRequest($data)
     {
-        $authorization = 'Basic ' . base64_encode($this->getUsername() . ':' . $this->getPassword());
+        $credentials = $this->getUsername() . ':' . $this->getPassword();
 
         return $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getEndpoint(),
             [
-                'Authorization' => $authorization,
+                'Authorization' => 'Basic ' . base64_encode($credentials),
                 'Content-Type' => 'application/vnd.worldpay.payments-v6+json',
                 'Accept' => 'application/json',
             ],

@@ -9,6 +9,7 @@ use Http\Adapter\Guzzle6\Client as GuzzleClient;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Http\Client;
 use Omnipay\WorldpayAccess\Message\AuthorizeRequest;
+use Omnipay\WorldpayAccess\Message\AuthorizeResponse;
 use Omnipay\WorldpayAccess\Message\CaptureRequest;
 use Omnipay\WorldpayAccess\Message\PurchaseRequest;
 use Omnipay\WorldpayAccess\Message\RefundRequest;
@@ -72,7 +73,7 @@ class Gateway extends AbstractGateway
      */
     public function getPassword()
     {
-        return $this->getParameter('merchantId');
+        return $this->getParameter('password');
     }
 
     /**
@@ -108,15 +109,32 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Create purchase request
+     * Get the stored authorize response
      *
      * @param array $parameters
-     *
-     * @return PurchaseRequest
+     * @return AuthorizeResponse
      */
-    public function purchase(array $parameters = array())
+    public function getAuthorizeResponse(array $parameters = array())
     {
-        return $this->createRequest(PurchaseRequest::class, $parameters);
+        if (empty($this->getParameter('authorizeResponse'))) {
+            /** @var AuthorizeResponse $authorizeResponse */
+            $authorizeResponse = $this->authorize($parameters)->send();
+
+            $this->setAuthorizeResponse($authorizeResponse);
+        }
+
+        return $this->getParameter('authorizeResponse');
+    }
+
+    /**
+     * Set the stored checkout ID
+     *
+     * @param AuthorizeResponse $value
+     * @return $this
+     */
+    public function setAuthorizeResponse($value)
+    {
+        return $this->setParameter('authorizeResponse', $value);
     }
 
     /**
@@ -132,18 +150,6 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Create refund request
-     *
-     * @param array $parameters
-     *
-     * @return RefundRequest
-     */
-    public function refund(array $parameters = array())
-    {
-        return $this->createRequest(RefundRequest::class, $parameters);
-    }
-
-    /**
      * Create capture request
      *
      * @param array $parameters
@@ -153,6 +159,30 @@ class Gateway extends AbstractGateway
     public function capture(array $parameters = array())
     {
         return $this->createRequest(CaptureRequest::class, $parameters);
+    }
+
+    /**
+     * Create purchase request
+     *
+     * @param array $parameters
+     *
+     * @return PurchaseRequest
+     */
+    public function purchase(array $parameters = array())
+    {
+        return $this->createRequest(PurchaseRequest::class, $parameters);
+    }
+
+    /**
+     * Create refund request
+     *
+     * @param array $parameters
+     *
+     * @return RefundRequest
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest(RefundRequest::class, $parameters);
     }
 
     protected function getDefaultHttpClient()

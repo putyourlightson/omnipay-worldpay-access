@@ -8,7 +8,7 @@ namespace Omnipay\WorldpayAccess\Message;
 /**
  * Worldpay Access Capture Request
  */
-class CaptureRequest extends AbstractRequest
+class CaptureRequest extends Request
 {
     /**
      * @return array
@@ -27,6 +27,6 @@ class CaptureRequest extends AbstractRequest
      */
     public function getEndpoint()
     {
-        return $this->endpoint.'/orders/'.$this->getTransactionReference().'/capture';
+        return parent::getEndpoint().'/orders/'.$this->getTransactionReference().'/capture';
     }
 }
