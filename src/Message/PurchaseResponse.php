@@ -13,7 +13,7 @@ class PurchaseResponse extends Response
     /**
      * @var string  Payment status that determines success
      */
-    protected $successfulPaymentStatus = 'SUCCESS';
+    protected $successfulPaymentStatus = 'authorized';
 
     /**
      * Is the response successful?
@@ -25,7 +25,7 @@ class PurchaseResponse extends Response
         $isHttpSuccess = parent::isSuccessful();
         $isPurchaseSuccess = false;
 
-        if (isset($this->data['paymentStatus']) && $this->data['paymentStatus'] == $this->successfulPaymentStatus) {
+        if (isset($this->data['outcome']) && $this->data['outcome'] == $this->successfulPaymentStatus) {
             $isPurchaseSuccess = true;
         }
 
@@ -43,6 +43,7 @@ class PurchaseResponse extends Response
     {
         // check for HTTP failure response first
         $httpMessage = parent::getMessage();
+
         if ($httpMessage !== null) {
             return $httpMessage;
         }

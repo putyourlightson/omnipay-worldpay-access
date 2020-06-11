@@ -36,14 +36,14 @@ class Response extends AbstractResponse
      * Is the response successful?
      *
      * Based on HTTP status code, as some requests have an empty body (no data) but are still a success.
-     * For example see tests/Mock/JsonRefundResponseSuccess.txt
      *
      * @return bool
      */
     public function isSuccessful()
     {
         $code = $this->response->getStatusCode();
-        return $code == 200;
+
+        return $code == 201;
     }
 
     /**

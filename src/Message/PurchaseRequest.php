@@ -37,17 +37,18 @@ class PurchaseRequest extends AbstractRequest
                     'amount' => $this->getAmountInteger(),
                 ),
                 'paymentInstrument' => array(
+                    'cvc' => $card->getCvv(),
+                    'cardHolderName' => $card->getName(),
                     'billingAddress' => array(
                         'address1' => $card->getBillingAddress1(),
                         'address2' => $card->getBillingAddress2(),
                         'city' => $card->getBillingCity(),
                         'state' => $card->getBillingState(),
-                        'countryCode' => $card->getBillingCountry(),
                         'postalCode' => $card->getBillingPostcode(),
+                        'countryCode' => $card->getBillingCountry(),
                     ),
                     'type' => 'card/plain',
                     'cardNumber' => $card->getNumber(),
-                    'cardHolderName' => $card->getName(),
                     'cardExpiryDate' => array(
                         'month' => $card->getExpiryMonth(),
                         'year' => $card->getExpiryYear(),
