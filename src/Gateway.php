@@ -5,7 +5,13 @@
 
 namespace Omnipay\WorldpayAccess;
 
+use Http\Adapter\Guzzle6\Client as GuzzleClient;
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Http\Client;
+use Omnipay\WorldpayAccess\Message\AuthorizeRequest;
+use Omnipay\WorldpayAccess\Message\CaptureRequest;
+use Omnipay\WorldpayAccess\Message\PurchaseRequest;
+use Omnipay\WorldpayAccess\Message\RefundRequest;
 
 /**
  * WorldPay Access Gateway
@@ -14,144 +20,150 @@ use Omnipay\Common\AbstractGateway;
  */
 class Gateway extends AbstractGateway
 {
+    /**
+     * Name of the gateway
+     *
+     * @return string
+     */
     public function getName()
     {
-        return 'Worldpay Access';
+        return 'WorldPay Access';
     }
 
+    /**
+     * Setup the default parameters
+     *
+     * @return string[]
+     */
     public function getDefaultParameters()
     {
         return array(
-            'installationId' => '',
-            'accountId' => '',
-            'secretWord' => '',
-            'callbackPassword' => '',
-            'testMode' => false,
-            'noLanguageMenu' => false,
-            'fixContact' => false,
-            'hideContact' => false,
-            'hideCurrency' => false,
-            'signatureFields' => 'instId:amount:currency:cartId',
+            'merchantId' => '',
+            'serviceKey' => '',
+            'clientKey' => '',
         );
     }
 
-    public function getSignatureFields()
+    /**
+     * Get the stored service key
+     *
+     * @return string
+     */
+    public function getServiceKey()
     {
-        return $this->getParameter('signatureFields');
-    }
-
-    public function setSignatureFields($value)
-    {
-        return $this->setParameter('signatureFields', $value);
-    }
-
-    public function getInstallationId()
-    {
-        return $this->getParameter('installationId');
-    }
-
-    public function setInstallationId($value)
-    {
-        return $this->setParameter('installationId', $value);
-    }
-
-    public function getAccountId()
-    {
-        return $this->getParameter('accountId');
-    }
-
-    public function setAccountId($value)
-    {
-        return $this->setParameter('accountId', $value);
-    }
-
-    public function getSecretWord()
-    {
-        return $this->getParameter('secretWord');
-    }
-
-    public function setSecretWord($value)
-    {
-        return $this->setParameter('secretWord', $value);
-    }
-
-    public function getCallbackPassword()
-    {
-        return $this->getParameter('callbackPassword');
-    }
-
-    public function setCallbackPassword($value)
-    {
-        return $this->setParameter('callbackPassword', $value);
+        return $this->getParameter('serviceKey');
     }
 
     /**
-     * If true, hides WorldPay's language selection menu.
+     * Set the stored service key
      *
-     * @param boolean
+     * @param string $value Service key to store
+     * @return Gateway
      */
-    public function getNoLanguageMenu()
+    public function setServiceKey($value)
     {
-        return $this->getParameter('noLanguageMenu');
-    }
-
-    public function setNoLanguageMenu($value)
-    {
-        return $this->setParameter('noLanguageMenu', $value);
+        return $this->setParameter('serviceKey', $value);
     }
 
     /**
-     * If true, prevents editing of address details by user.
+     * Get the stored merchant ID
      *
-     * @param boolean
+     * @return string
      */
-    public function getFixContact()
+    public function getMerchantId()
     {
-        return $this->getParameter('fixContact');
-    }
-
-    public function setFixContact($value)
-    {
-        return $this->setParameter('fixContact', $value);
+        return $this->getParameter('merchantId');
     }
 
     /**
-     * If true, hides address details from user.
+     * Set the stored merchant ID
      *
-     * @param boolean
+     * @param string $value Merchant ID to store
+     * @return Gateway
      */
-    public function getHideContact()
+    public function setMerchantId($value)
     {
-        return $this->getParameter('hideContact');
-    }
-
-    public function setHideContact($value)
-    {
-        return $this->setParameter('hideContact', $value);
+        return $this->setParameter('merchantId', $value);
     }
 
     /**
-     * If true, hides currency options from user.
+     * Get the stored client key
      *
-     * @param boolean
+     * @return string
      */
-    public function getHideCurrency()
+    public function getClientKey()
     {
-        return $this->getParameter('hideCurrency');
+        return $this->getParameter('clientKey');
     }
 
-    public function setHideCurrency($value)
+    /**
+     * Set the stored client key
+     *
+     * @param string $value Client key to store
+     * @return Gateway
+     */
+    public function setClientKey($value)
     {
-        return $this->setParameter('hideCurrency', $value);
+        return $this->setParameter('clientKey', $value);
     }
 
+    /**
+     * Create purchase request
+     *
+     * @param array $parameters
+     *
+     * @return PurchaseRequest
+     */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPay\Message\PurchaseRequest', $parameters);
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
-    public function completePurchase(array $parameters = array())
+    /**
+     * Create authorize request
+     *
+     * @param array $parameters
+     *
+     * @return AuthorizeRequest
+     */
+    public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WorldPay\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest(AuthorizeRequest::class, $parameters);
+    }
+
+    /**
+     * Create refund request
+     *
+     * @param array $parameters
+     *
+     * @return RefundRequest
+     */
+    public function refund(array $parameters = array())
+    {
+        return $this->createRequest(RefundRequest::class, $parameters);
+    }
+
+    /**
+     * Create capture request
+     *
+     * @param array $parameters
+     *
+     * @return CaptureRequest
+     */
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest(CaptureRequest::class, $parameters);
+    }
+
+    protected function getDefaultHttpClient()
+    {
+        $guzzleClient = GuzzleClient::createWithConfig([
+            'curl.options' => [
+                CURLOPT_SSLVERSION => 6
+            ]
+        ]);
+
+
+        return new Client($guzzleClient);
     }
 }
