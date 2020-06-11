@@ -6,10 +6,10 @@ Worldpay Access docs: [https://developer.worldpay.com/docs/access-worldpay](http
 
 ## Usage
 
-Install using composer.
+Install `league/omnipay` and `putyourlightson/omnipay-worldpay-access` using composer.
 
 ```
-composer require putyourlightson/omnipay-worldpay-access
+composer require league/omnipay putyourlightson/omnipay-worldpay-access
 ```
 
 ---
