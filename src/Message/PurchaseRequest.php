@@ -13,16 +13,6 @@ namespace Omnipay\WorldpayAccess\Message;
 class PurchaseRequest extends Request
 {
     /**
-     * Set up the base data for a purchase request
-     *
-     * @return mixed[]
-     */
-    public function getData()
-    {
-        return array();
-    }
-
-    /**
      * @return string
      */
     public function getEndpoint()
@@ -32,13 +22,5 @@ class PurchaseRequest extends Request
         $endpoint = $links['payments:settle']['href'] ?? '';
 
         return $endpoint;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResponseClassName()
-    {
-        return Response::class;
     }
 }

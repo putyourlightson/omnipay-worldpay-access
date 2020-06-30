@@ -150,6 +150,16 @@ abstract class Request extends AbstractRequest
     }
 
     /**
+     * Set up the base data for a request
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        return null;
+    }
+
+    /**
      * Send the request to the API then build the response object
      *
      * @param mixed $data  The data to encode and send to the API endpoint
