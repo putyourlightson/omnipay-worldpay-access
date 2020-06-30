@@ -16,12 +16,12 @@ abstract class Request extends AbstractRequest
     /**
      * @var string Live API endpoint base to connect to
      */
-    protected $liveEndpoint = 'https://access.worldpay.com/';
+    protected $liveEndpoint = 'https://try.access.worldpay.com';//'https://access.worldpay.com';
 
     /**
      * @var string Test API endpoint base to connect to
      */
-    protected $testEndpoint = 'https://try.access.worldpay.com/';
+    protected $testEndpoint = 'https://try.access.worldpay.com';
 
     /**
      * Get the specific request endpoint
@@ -71,7 +71,7 @@ abstract class Request extends AbstractRequest
      */
     public function getPassword()
     {
-        return $this->getParameter('merchantId');
+        return $this->getParameter('password');
     }
 
     /**
@@ -142,28 +142,6 @@ abstract class Request extends AbstractRequest
     }
 
     /**
-     * Make the actual request to Worldpay
-     *
-     * @param mixed $data  The data to encode and send to the API endpoint
-     * @return ResponseInterface HTTP response object
-     */
-    public function sendRequest($data)
-    {
-        $credentials = $this->getUsername() . ':' . $this->getPassword();
-
-        return $this->httpClient->request(
-            $this->getHttpMethod(),
-            $this->getEndpoint(),
-            [
-                'Authorization' => 'Basic ' . base64_encode($credentials),
-                'Content-Type' => 'application/vnd.worldpay.payments-v6+json',
-                'Accept' => 'application/json',
-            ],
-            json_encode($data)
-        );
-    }
-
-    /**
      * @return string
      */
     public function getResponseClassName()
@@ -183,6 +161,31 @@ abstract class Request extends AbstractRequest
         $httpResponse = $this->sendRequest($data);
 
         $responseClass = $this->getResponseClassName();
+
         return $this->response = new $responseClass($this, $httpResponse);
+    }
+
+    /**
+     * Make the actual request to Worldpay
+     *
+     * @param mixed $data  The data to encode and send to the API endpoint
+     * @return ResponseInterface HTTP response object
+     */
+    public function sendRequest($data)
+    {
+        $credentials = $this->getUsername() . ':' . $this->getPassword();
+
+        $data = empty($data) ? null : json_encode($data);
+
+        return $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            [
+                'Authorization' => 'Basic ' . base64_encode($credentials),
+                'Content-Type' => 'application/vnd.worldpay.payments-v6+json',
+                'Accept' => 'application/json',
+            ],
+            $data
+        );
     }
 }

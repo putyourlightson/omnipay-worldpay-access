@@ -170,6 +170,8 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
+        $this->getAuthorizeResponse($parameters);
+
         return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 

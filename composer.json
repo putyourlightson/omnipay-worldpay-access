@@ -8,9 +8,9 @@
         "gateway",
         "merchant",
         "omnipay",
-        "pay",
         "payment",
-        "worldpay"
+        "worldpay",
+        "access"
     ],
     "require": {
         "omnipay/common": "~3.0"

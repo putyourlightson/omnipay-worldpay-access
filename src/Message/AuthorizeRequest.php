@@ -26,7 +26,7 @@ class AuthorizeRequest extends Request
         $data = array(
             'transactionReference' => $this->getTransactionReference(),
             'merchant' => array(
-                'entity' => 'an-entity'
+                'entity' => 'Solutions'
             ),
             'instruction' => array(
                 'narrative' => array(
@@ -56,13 +56,13 @@ class AuthorizeRequest extends Request
                 ),
             ),
             // TODO: verify the values below
-            'customer' => array(
-                'authentication' => array(
-                    'eci' => '',
-                    'type' => 'ECOM',
-                    'transactionId' => $this->getTransactionId(),
-                ),
-            ),
+//            'customer' => array(
+//                'authentication' => array(
+//                    'eci' => '',
+//                    'type' => 'ECOM',
+//                    'transactionId' => $this->getTransactionId(),
+//                ),
+//            ),
         );
 
         return $data;
