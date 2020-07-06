@@ -15,9 +15,15 @@ class CaptureRequest extends Request
      */
     public function getData()
     {
-        $data = array();
+        $this->validate('amount');
 
-        $data['captureAmount'] = $this->getAmountInteger();
+        $data = array(
+            'value' => array(
+                'amount' => $this->getAmountInteger(),
+                'currency' => $this->getCurrency(),
+            ),
+            'reference' => $this->getTransactionReference(),
+        );
 
         return $data;
     }
@@ -27,6 +33,8 @@ class CaptureRequest extends Request
      */
     public function getEndpoint()
     {
-        return parent::getEndpoint().'/orders/'.$this->getTransactionReference().'/capture';
+        $links = $this->getPurchaseResponseLinks();
+
+        return $links['payments:payments:partialSettle']['href'] ?? '';
     }
 }

@@ -127,7 +127,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Set the stored checkout ID
+     * Set the stored authorize response
      *
      * @param AuthorizeResponse $value
      * @return $this

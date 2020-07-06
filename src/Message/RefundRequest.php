@@ -11,11 +11,9 @@ namespace Omnipay\WorldpayAccess\Message;
 class RefundRequest extends Request
 {
     /**
-     * Set up the refund-specific data
+     * @inheritDoc
      *
      * @link https://developer.worldpay.com/docs/access-worldpay/payments/manage-payments#partially-refund-a-payment
-     *
-     * @return mixed
      */
     public function getData()
     {
@@ -26,17 +24,19 @@ class RefundRequest extends Request
                 'amount' => $this->getAmountInteger(),
                 'currency' => $this->getCurrency(),
             ),
-            'reference' => 'Refund',
+            'reference' => $this->getTransactionReference(),
         );
 
         return $data;
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getEndpoint()
     {
-        return parent::getEndpoint().'/payments/settlements/refunds/partials/'.$this->getTransactionReference();
+        $links = $this->getPurchaseResponseLinks();
+
+        return $links['payments:partialRefund']['href'] ?? '';
     }
 }

@@ -13,14 +13,12 @@ namespace Omnipay\WorldpayAccess\Message;
 class PurchaseRequest extends Request
 {
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getEndpoint()
     {
         $links = $this->getAuthorizeResponseLinks();
 
-        $endpoint = $links['payments:settle']['href'] ?? '';
-
-        return $endpoint;
+        return $links['payments:settle']['href'] ?? '';
     }
 }

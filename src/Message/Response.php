@@ -16,15 +16,20 @@ use Psr\Http\Message\ResponseInterface;
 class Response extends AbstractResponse
 {
     /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * @var HttpResponse  HTTP response object
      */
     public $response;
 
     /**
-     * Constructor
+     * Override the constructor so we can store the response
      *
-     * @param RequestInterface $request   The initiating request
-     * @param ResponseInterface     $response  HTTP response object
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      */
     public function __construct(RequestInterface $request, $response)
     {
@@ -47,42 +52,30 @@ class Response extends AbstractResponse
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
     public function getMessage()
     {
-        if (!$this->isSuccessful() && isset($this->data['message'])) {
-            return $this->data['message'];
-        }
+        return $this->data['message'] ?? null;
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
     public function getCode()
     {
-        if (isset($this->data['customCode'])) {
-            return $this->data['customCode'];
-        }
+        return $this->data['issuer']['authorizationCode'] ?? null;
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
     public function getTransactionReference()
     {
-        if (isset($this->data['orderCode'])) {
-            return $this->data['orderCode'];
+        if ($this->isSuccessful()) {
+            return $this->request->getTransactionReference();
         }
-    }
 
-    /**
-     * @return string|null
-     */
-    public function getCardReference()
-    {
-        if (isset($this->data['token'])) {
-            return $this->data['token'];
-        }
+        return null;
     }
 }

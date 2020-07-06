@@ -118,7 +118,7 @@ abstract class Request extends AbstractRequest
     }
 
     /**
-     * Set the stored checkout ID
+     * Set the stored authorize response
      *
      * @param AuthorizeResponse $value
      * @return $this
@@ -129,7 +129,7 @@ abstract class Request extends AbstractRequest
     }
 
     /**
-     * Get the stored authorize response
+     * Get the stored authorize response links
      *
      * @param array $parameters
      * @return array
@@ -139,6 +139,27 @@ abstract class Request extends AbstractRequest
         $data = $this->getAuthorizeResponse()->getData();
 
         return $data['_links'] ?? [];
+    }
+
+    /**
+     * Get the stored purchase response links
+     *
+     * @return mixed
+     */
+    public function getPurchaseResponseLinks()
+    {
+        return $this->getParameter('purchaseResponse');
+    }
+
+    /**
+     * Set the stored purchase response links
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setPurchaseResponseLinks($value)
+    {
+        return $this->setParameter('purchaseResponse', $value);
     }
 
     /**
