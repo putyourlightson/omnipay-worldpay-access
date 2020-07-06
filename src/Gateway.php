@@ -150,18 +150,6 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Create capture request
-     *
-     * @param array $parameters
-     *
-     * @return CaptureRequest
-     */
-    public function capture(array $parameters = array())
-    {
-        return $this->createRequest(CaptureRequest::class, $parameters);
-    }
-
-    /**
      * Create purchase request
      *
      * @param array $parameters
