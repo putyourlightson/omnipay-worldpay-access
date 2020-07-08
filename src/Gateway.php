@@ -10,7 +10,6 @@ use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Http\Client;
 use Omnipay\WorldpayAccess\Message\AuthorizeRequest;
 use Omnipay\WorldpayAccess\Message\AuthorizeResponse;
-use Omnipay\WorldpayAccess\Message\CaptureRequest;
 use Omnipay\WorldpayAccess\Message\PurchaseRequest;
 use Omnipay\WorldpayAccess\Message\RefundRequest;
 
@@ -106,6 +105,27 @@ class Gateway extends AbstractGateway
     public function setCheckoutId($value)
     {
         return $this->setParameter('checkoutId', $value);
+    }
+
+    /**
+     * Get the stored entity reference
+     *
+     * @return string
+     */
+    public function getEntityReference()
+    {
+        return $this->getParameter('entityReference');
+    }
+
+    /**
+     * Set the stored entity reference
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setEntityReference($value)
+    {
+        return $this->setParameter('entityReference', $value);
     }
 
     /**

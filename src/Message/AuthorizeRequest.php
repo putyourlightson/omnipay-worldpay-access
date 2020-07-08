@@ -26,7 +26,7 @@ class AuthorizeRequest extends Request
         $data = array(
             'transactionReference' => $this->getTransactionReference(),
             'merchant' => array(
-                'entity' => 'Solutions'
+                'entity' => $this->getEntityReference(),
             ),
             'instruction' => array(
                 'narrative' => array(

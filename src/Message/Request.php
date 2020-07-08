@@ -107,6 +107,27 @@ abstract class Request extends AbstractRequest
     }
 
     /**
+     * Get the stored entity reference
+     *
+     * @return string
+     */
+    public function getEntityReference()
+    {
+        return $this->getParameter('entityReference');
+    }
+
+    /**
+     * Set the stored entity reference
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setEntityReference($value)
+    {
+        return $this->setParameter('entityReference', $value);
+    }
+
+    /**
      * Get the stored authorize response
      *
      * @param array $parameters
