@@ -41,6 +41,7 @@ class Gateway extends AbstractGateway
             'username' => '',
             'password' => '',
             'checkoutId' => '',
+            'testMode' => false,
         );
     }
 
