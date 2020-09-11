@@ -16,7 +16,7 @@ abstract class Request extends AbstractRequest
     /**
      * @var string Live API endpoint base to connect to
      */
-    protected $liveEndpoint = 'https://try.access.worldpay.com';//'https://access.worldpay.com';
+    protected $liveEndpoint = 'https://access.worldpay.com';
 
     /**
      * @var string Test API endpoint base to connect to
